@@ -28,7 +28,7 @@ In den Auswahlfeldern "Wahlkreis" und "Listenplatz" werden die Werte mit einem S
 
 Im Feld "Bild" kann durch einen Klick auf "Bild hochladen" auch ein Bild aus der Mediathek eingebunden werden.
 
-Im Feld "Bildlizenz" kann auch html-Code eingegeben werden (z.B. um Links umzusetzen). Aufgrund eines eher seltsamen Bugs, für den ich den Grund noch nicht finden konnte, müssen die aber in der eigentlich fhalcsen Syntax: "&lt;a href=http://www.example.com/&gt;Linkziel&lt;/a&gt;" (also OHNE Anführungzeichen um den URL) notiert werden.
+Im Feld "Bildlizenz" kann auch html-Code eingegeben werden (z.B. um Links umzusetzen). Aufgrund eines eher seltsamen Bugs, für den ich den Grund noch nicht finden konnte, müssen die aber in der eigentlich fhalcsen Syntax: "&lt;a href=http:&#47;&#47;www.example.com&#47;&gt;Linkziel&lt;&#47;a&gt;" (also OHNE Anführungzeichen um den URL) notiert werden.
 
 ### Einbindung
 
