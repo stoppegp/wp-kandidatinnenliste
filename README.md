@@ -41,3 +41,7 @@ Eine (mit Hilfe von Javascript sortierbare) Tabelle mit allen Kandidatinnen kann
 Im Internet Explorer gibt es weder abgerundete Ecken, noch Schatteneffekte bei den über der Karte liegenden Elementen.
 
 Auf Tablets oder sonstigen Geräten mit Touch-Bedienung funktioniert die Karte leider noch nicht so gut.
+
+Die Bulk-Action "Löschen" im Backend funktioniert noch nicht.
+
+Die Internationalisierung lässt noch zu wünschen übrig.
