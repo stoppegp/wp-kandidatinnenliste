@@ -3,7 +3,7 @@
 Plugin Name: Kandidat*liste
 Plugin URI: http://sproesser.name/kandidatinnenliste
 Description: Eine Kandidat*liste für Landeslisten, Direktkandidat* und rudimentäre Infos zu den Personen
-Version: 0.1
+Version: 0.8
 Author: Sebastian Sproesser
 Author URI: http://sproesser.name/
 Min WP Version: 1.5
@@ -13,7 +13,7 @@ Max WP Version: 3.5.1
 include('wk.php');
 
 global $kandidatinnenliste_db_version;
-$kandidatinnenliste_db_version = "0.2";
+$kandidatinnenliste_db_version = "0.8";
 
 function kandidatinnenliste_install () {
    	global $wpdb;
