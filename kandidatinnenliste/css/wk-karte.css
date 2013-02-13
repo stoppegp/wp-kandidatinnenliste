@@ -1,0 +1,175 @@
+/*
+body {
+    margin: 0px;
+    padding: 0px;
+}
+*/
+
+#map_parent {
+	width: 960px;
+	height: 800px;
+	position: relative;
+}
+
+#map {
+    /*min-height: 100%;*/
+    width: 100%;
+    height: 100%;
+}
+
+#kandidatinnen {
+	display: none;
+}
+
+.leaflet-popup-content {
+	overflow: hidden;
+}
+
+.leaflet-control-zoom {
+	left: 220px;
+}
+
+span.listenummer {
+	width: 20px;
+	display: inline-block;
+}
+
+#kandidatinneninfo {
+	right: 0px;
+	top: 0px;
+	min-height: 100px;
+	max-height: 600px;
+	width: 200px;
+	position: absolute;
+	background: white;
+	border-top-left-radius: 20px;
+	-moz-border-top-left-radius: 20px;
+	-webkit-border-top-left-radius: 20px;
+	-o-border-top-left-radius: 20px;
+	border-bottom-left-radius: 20px;
+	-moz-border-bottom-left-radius: 20px;
+	-webkit-border-bottom-left-radius: 20px;
+	-o-border-bottom-left-radius: 20px;
+	box-shadow: 0 3px 10px rgb(136, 136, 136);
+	-moz-box-shadow: 0 3px 10px #888;
+	-webkit-box-shadow: 0 3px 14px rgb(153, 153, 153);
+	-o-box-shadow: 0 3px 14px rgb(153, 153, 153);
+	display: block;
+	padding: 10px;
+	overflow-y: auto;
+	z-index: 1000;
+}
+
+#kandidatinneninfo h3, #landesliste h3 {
+	margin-top: 0px;
+}
+
+#landesliste h3 {
+	margin-top: 10px;
+}
+
+#kandidatinneninfo h4 {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+#kandidatinneninfo img {
+	width: 100%;
+}
+
+#landesliste_parent {
+	left: 0px;
+	top: 0px;
+	direction: rtl;
+	min-height: 100px;
+	max-height: 600px;
+	width: 200px;
+	overflow-y: auto;
+	overflow-x: none;
+	padding-left: 15px;
+	position: absolute;
+	background: white;
+	border-top-right-radius: 20px;
+	-moz-border-top-right-radius: 20px;
+	-webkit-border-top-right-radius: 20px;
+	-o-border-top-right-radius: 20px;
+	border-bottom-right-radius: 20px;
+	-moz-border-bottom-right-radius: 20px;
+	-webkit-border-bottom-right-radius: 20px;
+	-o-border-bottom-right-radius: 20px;
+	box-shadow: 0 3px 10px rgb(136, 136, 136);
+	-moz-box-shadow: 0 3px 10px #888;
+	-webkit-box-shadow: 0 3px 14px rgb(153, 153, 153);
+	-o-box-shadow: 0 3px 14px rgb(153, 153, 153);
+	z-index: 1000;
+}
+
+#landesliste {
+	min-height: 100px;
+	max-height: 600px;
+	width: 200px;
+	direction: ltr;
+	background: white;
+	display: block;
+	z-index: 1000;
+	overflow-x: none;
+	overflow-y: none;
+}
+
+#landesliste ol, #landesliste ol li {
+	margin: 0px;
+	padding: 0px;
+	display: block;
+	box-sizing: border-box;
+	list-style: none;
+	list-style-position: outside;
+	zoom: 1;
+	vertical-align: top;
+}
+
+#landesliste ol {
+}
+
+#landesliste ol li {
+	display: block;
+	background: lightgrey;
+}
+
+#landesliste ol li > span {
+	display: block;
+}
+
+#landesliste ol li.odd {
+	
+}
+
+#landesliste ol li.even {
+	
+}
+
+#landesliste ol li > span {
+	border-left: 5px solid lightgrey;
+}
+
+#landesliste ol li span.highlight {
+	background: orange;
+	border-left: 5px solid orange;
+}
+
+#landesliste ol li span.clicked {
+	border-left: 5px solid black;
+}
+
+#landesliste ol > li > span {
+	padding: 10px;
+	margin: 0 0 2px 0;
+}
+
+.lizenz {
+	font-size: 70%;
+}
+
+.clearfix:before, .clearfix:after { content: ""; display: table; }
+.clearfix:after { clear: both; }
+.clearfix { *zoom: 1; }
+
