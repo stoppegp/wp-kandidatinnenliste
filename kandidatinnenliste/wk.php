@@ -1,203 +1,203 @@
 <?php
 function kandidatinnenliste_wahlkreisname($nummer) {
   switch ($nummer) {
-	case 001:
+	case 1:
 		return 'Flensburg - Schleswig';
-	case 002:
+	case 2:
 		return 'Nordfriesland - Dithmarschen Nord';
-	case 003:
+	case 3:
 		return 'Steinburg - Dithmarschen S&uuml;d';
-	case 004:
+	case 4:
 		return 'Rendsburg-Eckernf&ouml;rde';
-	case 005:
+	case 5:
 		return 'Kiel';
-	case 006:
+	case 6:
 		return 'Pl&ouml;n - Neum&uuml;nster';
-	case 007:
+	case 7:
 		return 'Pinneberg';
-	case 008:
+	case 8:
 		return 'Segeberg - Stormarn-Mitte';
-	case 009:
+	case 9:
 		return 'Ostholstein - Stormarn-Nord';
-	case 010:
+	case 10:
 		return 'Herzogtum Lauenburg - Stormarn-S&uuml;d';
-	case 011:
+	case 11:
 		return 'L&uuml;beck';
-	case 012:
+	case 12:
 		return 'Schwerin - Ludwigslust-Parchim I - Nordwestmecklenburg I';
-	case 013:
+	case 13:
 		return 'Ludwigslust-Parchim II - Nordwestmecklenburg II - Landkreis Rostock I';
-	case 014:
+	case 14:
 		return 'Rostock - Landkreis Rostock II';
-	case 015:
+	case 15:
 		return 'Vorpommern-R&uuml;gen - Vorpommern-Greifswald I';
-	case 016:
+	case 16:
 		return 'Mecklenburgische Seenplatte I - Vorpommern-Greifswald II';
-	case 017:
+	case 17:
 		return 'Mecklenburgische Seenplatte II - Landkreis Rostock III';
-	case 018:
+	case 18:
 		return 'Hamburg-Mitte';
-	case 019:
+	case 19:
 		return 'Hamburg-Altona';
-	case 020:
+	case 20:
 		return 'Hamburg-Eimsb&uuml;ttel';
-	case 021:
+	case 21:
 		return 'Hamburg-Nord';
-	case 022:
+	case 22:
 		return 'Hamburg-Wandsbek';
-	case 023:
+	case 23:
 		return 'Hamburg-Bergedorf - Harburg';
-	case 024:
+	case 24:
 		return 'Aurich - Emden';
-	case 025:
+	case 25:
 		return 'Unterems';
-	case 026:
+	case 26:
 		return 'Friesland - Wilhelmshaven - Wittmund';
-	case 027:
+	case 27:
 		return 'Oldenburg - Ammerland';
-	case 028:
+	case 28:
 		return 'Delmenhorst - Wesermarsch - Oldenburg-Land';
-	case 029:
+	case 29:
 		return 'Cuxhaven - Stade II';
-	case 030:
+	case 30:
 		return 'Stade I - Rotenburg II';
-	case 031:
+	case 31:
 		return 'Mittelems';
-	case 032:
+	case 32:
 		return 'Cloppenburg - Vechta';
-	case 033:
+	case 33:
 		return 'Diepholz - Nienburg I';
-	case 034:
+	case 34:
 		return 'Osterholz - Verden';
-	case 035:
+	case 35:
 		return 'Rotenburg I - Heidekreis';
-	case 036:
+	case 36:
 		return 'Harburg';
-	case 037:
+	case 37:
 		return 'L&uuml;chow-Dannenberg - L&uuml;neburg';
-	case 038:
+	case 38:
 		return 'Osnabr&uuml;ck-Land';
-	case 039:
+	case 39:
 		return 'Stadt Osnabr&uuml;ck';
-	case 040:
+	case 40:
 		return 'Nienburg II - Schaumburg';
-	case 041:
+	case 41:
 		return 'Stadt Hannover I';
-	case 042:
+	case 42:
 		return 'Stadt Hannover II';
-	case 043:
+	case 43:
 		return 'Hannover-Land I';
-	case 044:
+	case 44:
 		return 'Celle - Uelzen';
-	case 045:
+	case 45:
 		return 'Gifhorn - Peine';
-	case 046:
+	case 46:
 		return 'Hameln-Pyrmont - Holzminden';
-	case 047:
+	case 47:
 		return 'Hannover-Land II';
-	case 048:
+	case 48:
 		return 'Hildesheim';
-	case 049:
+	case 49:
 		return 'Salzgitter - Wolfenb&uuml;ttel';
-	case 050:
+	case 50:
 		return 'Braunschweig';
-	case 051:
+	case 51:
 		return 'Helmstedt - Wolfsburg';
-	case 052:
+	case 52:
 		return 'Goslar - Northeim - Osterode';
-	case 053:
+	case 53:
 		return 'G&ouml;ttingen';
-	case 054:
+	case 54:
 		return 'Bremen I';
-	case 055:
+	case 55:
 		return 'Bremen II - Bremerhaven';
-	case 056:
+	case 56:
 		return 'Prignitz - Ostprignitz-Ruppin - Havelland I';
-	case 057:
+	case 57:
 		return 'Uckermark - Barnim I';
-	case 058:
+	case 58:
 		return 'Oberhavel - Havelland II';
-	case 059:
+	case 59:
 		return 'M&auml;rkisch-Oderland - Barnim II';
-	case 060:
+	case 60:
 		return 'Brandenburg an der Havel - Potsdam-Mittelmark I - Havelland III - Teltow-Fl&auml;ming I';
-	case 061:
+	case 61:
 		return 'Potsdam - Potsdam-Mittelmark II - Teltow-Fl&auml;ming II';
-	case 062:
+	case 62:
 		return 'Dahme-Spreewald - Teltow-Fl&auml;ming III - Oberspreewald-Lausitz I';
-	case 063:
+	case 63:
 		return 'Frankfurt (Oder) - Oder-Spree';
-	case 064:
+	case 64:
 		return 'Cottbus - Spree-Nei&szlig;e';
-	case 065:
+	case 65:
 		return 'Elbe-Elster - Oberspreewald-Lausitz II';
-	case 066:
+	case 66:
 		return 'Altmark';
-	case 067:
+	case 67:
 		return 'B&ouml;rde - Jerichower Land';
-	case 068:
+	case 68:
 		return 'Harz';
-	case 069:
+	case 69:
 		return 'Magdeburg';
-	case 070:
+	case 70:
 		return 'Dessau - Wittenberg';
-	case 071:
+	case 71:
 		return 'Anhalt';
-	case 072:
+	case 72:
 		return 'Halle';
-	case 073:
+	case 73:
 		return 'Burgenland - Saalekreis';
-	case 074:
+	case 74:
 		return 'Mansfeld';
-	case 075:
+	case 75:
 		return 'Berlin-Mitte';
-	case 076:
+	case 76:
 		return 'Berlin-Pankow';
-	case 077:
+	case 77:
 		return 'Berlin-Reinickendorf';
-	case 078:
+	case 78:
 		return 'Berlin-Spandau-Charlottenburg Nord';
-	case 079:
+	case 79:
 		return 'Berlin-Steglitz-Zehlendorf';
-	case 080:
+	case 80:
 		return 'Berlin-Charlottenburg-Wilmersdorf';
-	case 081:
+	case 81:
 		return 'Berlin-Tempelhof-Sch&ouml;neberg';
-	case 082:
+	case 82:
 		return 'Berlin-Neuk&ouml;lln';
-	case 083:
+	case 83:
 		return 'Berlin-Friedrichshain-Kreuzberg - Prenzlauer Berg Ost';
-	case 084:
+	case 84:
 		return 'Berlin-Treptow-K&ouml;penick';
-	case 085:
+	case 85:
 		return 'Berlin-Marzahn-Hellersdorf';
-	case 086:
+	case 86:
 		return 'Berlin-Lichtenberg';
-	case 087:
+	case 87:
 		return 'Aachen I';
-	case 088:
+	case 88:
 		return 'Aachen II';
-	case 089:
+	case 89:
 		return 'Heinsberg';
-	case 090:
+	case 90:
 		return 'D&uuml;ren';
-	case 091:
+	case 91:
 		return 'Rhein-Erft-Kreis I';
-	case 092:
+	case 92:
 		return 'Euskirchen - Rhein-Erft-Kreis II';
-	case 093:
+	case 93:
 		return 'K&ouml;ln I';
-	case 094:
+	case 94:
 		return 'K&ouml;ln II';
-	case 095:
+	case 95:
 		return 'K&ouml;ln III';
-	case 096:
+	case 96:
 		return 'Bonn';
-	case 097:
+	case 97:
 		return 'Rhein-Sieg-Kreis I';
-	case 098:
+	case 98:
 		return 'Rhein-Sieg-Kreis II';
-	case 099:
+	case 99:
 		return 'Oberbergischer Kreis';
 	case 100:
 		return 'Rheinisch-Bergischer Kreis';

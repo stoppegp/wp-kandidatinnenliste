@@ -10,14 +10,11 @@ Min WP Version: 1.5
 Max WP Version: 3.5.1
 */
 
-include('wk.php');
-
-global $kandidatinnenliste_db_version;
-$kandidatinnenliste_db_version = "0.8";
+require('wk.php');
 
 function kandidatinnenliste_install () {
    	global $wpdb;
-	global $kandidatinnenliste_db_version;
+	$kandidatinnenliste_db_version = "0.8";
 
    	$table_name = $wpdb->prefix . "kandidatinnenliste";
 
@@ -34,7 +31,7 @@ function kandidatinnenliste_install () {
   		bild TINYTEXT,
   		bildlizenz TINYTEXT,
   		beschreibung text NOT NULL,
-  		UNIQUE KEY id (id)
+  		PRIMARY KEY id (id)
 	);";
 
 	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -505,31 +502,36 @@ if ( is_admin() ) {
 	function kandidatinnenliste_kandidatinnen() {
 
    		global $wpdb;
-		global $kandidatinnenliste_db_version;
+		$kandidatinnenliste_db_version = get_option("kandidatinnenliste_db_version");
 
 	   	$table_name = $wpdb->prefix . "kandidatinnenliste";
 
-		if ($_GET['action'] === 'trash') {
-			if (is_numeric($_GET['kandidatin']) && $_GET['kandidatin'] >= 0) {
-   				$query = "UPDATE $table_name SET papierkorb = 1 WHERE id = %d";
-   				$wpdb->query($wpdb->prepare($query, $_GET['kandidatin']));
-   				//Infobox
-			}
-		} else if ($_GET['action'] === 'untrash') {
-			if (is_numeric($_GET['kandidatin']) && $_GET['kandidatin'] >= 0) {
-   				$query = "UPDATE $table_name SET papierkorb = 0 WHERE id = %d";
-   				$wpdb->query($wpdb->prepare($query, $_GET['kandidatin']));
-   				//Infobox
-			}
-		} else if ($_GET['action'] === 'delete') {
-			if (is_numeric($_GET['kandidatin']) && $_GET['kandidatin'] >= 0) {
-   				$query = "DELETE FROM $table_name WHERE id = %d AND papierkorb = 1";
-   				$wpdb->query($wpdb->prepare($query, $_GET['kandidatin']));
-   				//Infobox
-			}
-		} else if ($_GET['action'] === 'delete_bulk') {
-
-		}
+	   	switch($_GET['action']) {
+	   		case 'trash';
+				if (is_numeric($_GET['kandidatin']) && $_GET['kandidatin'] >= 0) {
+   					$query = "UPDATE $table_name SET papierkorb = 1 WHERE id = %d";
+   					$wpdb->query($wpdb->prepare($query, $_GET['kandidatin']));
+   					//Infobox
+				}
+				break;
+			case 'delete':
+				if (is_numeric($_GET['kandidatin']) && $_GET['kandidatin'] >= 0) {
+   					$query = "DELETE FROM $table_name WHERE id = %d AND papierkorb = 1";
+   					$wpdb->query($wpdb->prepare($query, $_GET['kandidatin']));
+   					//Infobox
+				}
+				break;
+			case 'untrash':
+				if (is_numeric($_GET['kandidatin']) && $_GET['kandidatin'] >= 0) {
+   					$query = "UPDATE $table_name SET papierkorb = 0 WHERE id = %d";
+   					$wpdb->query($wpdb->prepare($query, $_GET['kandidatin']));
+   					//Infobox
+				}
+				break;
+			case 'delete_bulk':
+				//noch nicht implementiert
+				break;
+	   	}
 
 		if ($_GET['action'] === 'edit') {
 			if ($_POST['posted']) {
@@ -781,7 +783,7 @@ if ( is_admin() ) {
 		} else {
 			echo '<div class="wrap">';
 			echo '<h2>Kandidatinnenliste ';
-			printf('<a href="?page=%s&action=%s" class="add-new-h2">'.__('Neue Person').'</a>',$_REQUEST['page'],'edit');
+			printf('<a href="?page=%s&action=%s" class="add-new-h2">%s</a>',$_REQUEST['page'],'edit', __('Neue Person'));
 			echo '</h2>';
 
 			//Prepare Table of elements
