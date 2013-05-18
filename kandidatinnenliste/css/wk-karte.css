@@ -173,3 +173,8 @@ span.listenummer {
 .clearfix:after { clear: both; }
 .clearfix { *zoom: 1; }
 
+table#kandidatinnen-table th.header {
+    background: transparent;
+    width: auto;
+    height: auto;
+}
