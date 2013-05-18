@@ -1080,6 +1080,11 @@ function kandidatinnenliste_karte() {
             $(window).bind('enterBreakpoint0',function() {
                 EnterSmallScreen();
             });
+            if ($(window).width() <= 600) {
+                EnterSmallScreen();
+            } else {
+                EnterBigScreen();
+            }
             $(document).ready(function() {
                 // Handler for .ready() called.
                 GetKandidatinnen();
@@ -1088,11 +1093,6 @@ function kandidatinnenliste_karte() {
                 ResizeWindows();
                 KandidatinZeigen();
                 ZeigeLandesliste();
-                if ($(window).width() <= 600) {
-                    EnterSmallScreen();
-                } else {
-                    EnterBigScreen();
-                }
             });
         </script>
 <?php
