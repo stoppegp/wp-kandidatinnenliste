@@ -1,0 +1,45 @@
+@media only screen and (max-width: 600px) {
+    #landesliste_select {
+        /*display: block;*/
+        margin: 20px;
+        text-align: center;
+    }
+    #landesliste_parent {
+        /*display: none;*/
+        position: relative;
+        float: none;
+        width: 100%;
+        padding-left: 0px;
+    }
+    #landesliste {
+        width: 100%;
+    }
+    #kandidatinneninfo_container {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100% !important;
+        max-height: 9999px !important;
+        border-bottom-left-radius: 0px;
+        -moz-border-bottom-left-radius: 0px;
+        -webkit-border-bottom-left-radius: 0px;
+        -o-border-bottom-left-radius: 0px;
+        box-shadow: 0 0 0 rgb(136, 136, 136);
+        -moz-box-shadow: 0 0 0 #888;
+        -webkit-box-shadow: 0 0 0 rgb(153, 153, 153);
+        -o-box-shadow: 0 0 0 rgb(153, 153, 153);
+    }
+    #kandidatinneninfo_container img, #kandidatinneninfo img {
+        float: none !important;
+        display: block;
+    }
+    #map {
+        max-height: 450px;
+    }
+    .leaflet-control {
+        left: 0 !important;
+    }
+    .leaflet-control-zoom {
+        left: 0 !important;
+    }
+}

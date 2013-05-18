@@ -854,7 +854,7 @@ function kandidatinnenliste_add_stylesheets() {
     wp_register_style( 'kandidatinnenlisteLeafletStyle', plugins_url() . '/kandidatinnenliste/css/leaflet.css' );
     wp_register_style( 'kandidatinnenlisteMainStyle', plugins_url() . '/kandidatinnenliste/css/wk-karte.css' );
     wp_register_style( 'kandidatinnenlisteUILightnessStyle', plugins_url() . '/kandidatinnenliste/css/ui-lightness/jquery-ui-1.10.0.custom.min.css' );
-
+    wp_register_style( 'kandidatinnenlisteSmallStyle', plugins_url() . '/kandidatinnenliste/css/wk-karte-small.css' );
     wp_register_style( 'kandidatinnenlisteLeafletIEStyle', plugins_url() . '/kandidatinnenliste/css/leaflet.ie.css');
 
 	wp_register_style('kandidatinnenlisteOptions', plugins_url() . '/kandidatinnenliste/kandidatinnenliste-stylesheet.php');
@@ -862,6 +862,7 @@ function kandidatinnenliste_add_stylesheets() {
     // loads your stylesheet
     wp_enqueue_style( 'kandidatinnenlisteLeafletStyle' );
     wp_enqueue_style( 'kandidatinnenlisteMainStyle' );
+    wp_enqueue_style( 'kandidatinnenlisteSmallStyle' );
     wp_enqueue_style( 'kandidatinnenlisteUILightnessStyle' );
 
     $GLOBALS['wp_styles']->add_data( 'kandidatinnenlisteLeafletIEStyle', 'conditional', 'lte IE 8' );
@@ -874,6 +875,7 @@ function kandidatinnenliste_add_stylesheets() {
 function kandidatinnenliste_add_javascript() {
    
 	wp_enqueue_script('kandidatinnenlistejQuery', plugins_url() . '/kandidatinnenliste/js/jquery-1.9.1.min.js');
+    wp_enqueue_script('kandidatinnenlisteBreakpoints', plugins_url() . '/kandidatinnenliste/js/breakpoints.js');
 	wp_enqueue_script('kandidatinnenlistejQueryUI', plugins_url() . '/kandidatinnenliste/js/jquery-ui-1.10.0.custom.min.js', array('kandidatinnenlistejQuery'));
 	wp_enqueue_script('kandidatinnenlistejQueryscrollTo', plugins_url() . '/kandidatinnenliste/js/jquery.scrollTo-1.4.3.1-min.js', array('kandidatinnenlistejQuery'));
 
@@ -914,12 +916,111 @@ function kandidatinnenliste_karte() {
    	$query = "SELECT * FROM $table_name WHERE anzeigen = 1 AND papierkorb = 0";
    	$kandidaten = $wpdb->get_results($query);
 
-	if ($kandidaten) {
 
+	if ($kandidaten) {
+    
+        $listecnt = 0;
+        $nichtlistecnt = 0;
+        $indexer = 0;
+        foreach ($kandidaten as $key => $kandidat) {
+            if ($kandidat->{'listenplatz'}) {
+                $listecnt++;
+            } else {
+                $nichtlistecnt++;
+            }
+            $kandidaten[$key]->{'index'} = $indexer++;
+        }
+
+        $landesliste_select .= '<span id="selectkartelabel">Kandidat ausw&auml;hlen: </span><select><option id="selectkarte">Karte</option>';
+        
+        if ($listecnt > 0) {
+            $landesliste .= '<h3>Landesliste:</h3>';
+            $landesliste .= '<ol>';
+            $landesliste_select .= '<optgroup label="Landesliste">';
+            foreach ($kandidaten as $kandidat) {
+                if ($kandidat->{'listenplatz'}) {
+                    $landesliste .= '<li><span id="kandidatin'.$kandidat->{'id'}.'" '.'><a href="#kandidat-'.$kandidat->{'id'}.'"><span class="listenummer">'.$kandidat->{'listenplatz'}.'.</span> <span class="name">'.$kandidat->{'name'}.'</span></a></span></li>';
+                    $landesliste_select .= '<option id="skandidatin'.$kandidat->{'id'}.'">'.$kandidat->{'listenplatz'}.'. '.$kandidat->{'name'}.'</option>';
+                }
+            }
+            $landesliste .= '</ol>';
+            $landesliste_select .= '</optgroup>';
+        }
+        
+        if ($nichtlistecnt > 0) {
+            $landesliste .= '<h3>Direktkandidaten:</h3>';
+            $landesliste .= '<ol>';
+            $landesliste_select .= '<optgroup label="Direktkandidaten">';
+            foreach ($kandidaten as $kandidat) {
+                if (!$kandidat->{'listenplatz'}) {
+                    $landesliste .= '<li><span id="kandidatin'.$kandidat->{'id'}.'" '.'><a href="#kandidat-'.$kandidat->{'id'}.'">'.$kandidat->{'name'}.'</a></span></li>';
+                    $landesliste_select .= '<option id="skandidatin'.$kandidat->{'id'}.'">'.$kandidat->{'name'}.'</option>';
+                }
+            }
+            $landesliste .= '</ol>';
+            $landesliste_select .= '</optgroup>';
+        }
+        $landesliste_select .= '</select>';
+        
 		echo '	        <ul id="kandidatinnen">';
 		foreach ($kandidaten as $kandidat) {
+            
+            $info_text = "";
+            
+            $info_text .= '<h3>';
+            $info_text .= $kandidat->{'name'}.'</h3>';
+
+            $info_text .= '<div class="kandidatinnen_infos">';
+            
+            if ($kandidat->{'bild'}) {
+                $info_text .= '<img src="'.$kandidat->{'bild'}.'" alt="'.$kandidat->{'name'};
+                if ($kandidat->{'bildlizenz'}) {
+                    $info_text .= ' (Foto: '.$kandidat->{'bildlizenz'}.')';
+                }
+                $info_text .= '" style="float: right;" />';
+                if ($kandidat->{'bildlizenzhtml'}) {
+                    $info_text .= '<div class="lizenz">Foto: '.$kandidat->{'bildlizenzhtml'}.'</div>';
+                }
+            }
+            
+            if ($kandidat->{'wahlkreis'} > 0) {
+                switch ($kandidat->{'geschlecht'}) {
+                    case "w":   $gender = "in"; break;
+                    case "m":   $gender = ""; break;
+                    default:    $gender = "*"; break;
+                }
+                $info_text .= '<h4>';
+                $info_text .= 'Direktkandidat'.$gender." im Wahlkreis ".kandidatinnenliste_wahlkreisname($kandidat->{'wahlkreis'}).' ('.$kandidat->{'wahlkreis'}.')</h4>';
+            }
+            
+            if ($kandidat->{'listenplatz'} > 0) {
+                $info_text .= '<h4>Landesliste Platz '.$kandidat->{'listenplatz'}.'</h4>';
+            }
+
+            $info_text .= '<ul>';
+            if ($kandidat->{'beruf'}) {
+                $info_text .= '<li><strong>Beruf:</strong> '.$kandidat->{'beruf'}.'</li>';
+            }
+
+            $info_text .= '</ul>';
+
+            if ($kandidat->{'url'}) {
+                $info_text .= '<a href="'.$kandidat->{'url'}.'" target="_blank">Zur Homepage</a>';
+            }
+
+            $info_text .= '</div>';
+
+            $info_text .= '<div class="clearfix"></div>';
+
+            $info_text .= '<div class="beschreibung">';
+            $info_text .= $kandidat->{'beschreibung'};
+            $info_text .= '</div>';
+            
+            $kandidatinneninfo[$kandidat->{'id'}] = $info_text;
+            
 ?>
             <li>
+                <div class="id"><?php echo $kandidat->{'id'}; ?></div>
                 <div class="name"><?php echo $kandidat->{'name'}; ?></div>
                 <div class="geschlecht"><?php echo $kandidat->{'geschlecht'}; ?></div>
                 <div class="beruf"><?php echo $kandidat->{'beruf'}; ?></div>
@@ -936,20 +1037,66 @@ function kandidatinnenliste_karte() {
 	}
 ?>
 	    <div id="map_parent">
+            <div id="landesliste_select"><?php echo $landesliste_select; ?></div>
+            <div id="landesliste_parent">
+                <div id="landesliste"><?php echo $landesliste; ?></div>
+            </div>
             <div id="map"></div>
+            <div id="kandidatinneninfo_container"></div>
+            <div id="kandidatinneninfo">
+                <?php
+                    if (is_array($kandidatinneninfo)) {
+                        foreach ($kandidatinneninfo as $key => $val) {
+                            echo '<div id="kandidat-'.$key.'">';
+                            echo $val;
+                            echo '</div>';
+                        }
+                    }
+                ?>
+            </div>
         </div>
         <div class="cleaner"></div>
         <script type="text/javascript">
         	var liste_aufruecken = <?php echo (get_option("kandidatinnenliste_aufruecken") ? 1 : 0); ?>;
         	var zoom_offset = <?php  echo (is_numeric(get_option("kandidatinnenliste_zoomoffset")) ? get_option("kandidatinnenliste_zoomoffset") : 0); ?>;
+            $('#kandidatinneninfo').css({'display': 'none'});
+            $('#map').css({'display': 'block'});
+            $('#landesliste_parent').css({'position': 'absolute'});
+            $('#landesliste_parent').css({'margin-right': '0'});
+            $('#landesliste_parent').css({'float': 'none'});
+            $(window).setBreakpoints({
+                // use only largest available vs use all available
+                    distinct: true, 
+                // array of widths in pixels where breakpoints
+                // should be triggered
+                    breakpoints: [
+                        600,
+                        0,
+                    ] 
+                }); 
+            $(window).bind('enterBreakpoint600',function() {
+                EnterBigScreen();
+            });
+            $(window).bind('enterBreakpoint0',function() {
+                EnterSmallScreen();
+            });
             $(document).ready(function() {
                 // Handler for .ready() called.
                 GetKandidatinnen();
                 InitMap();
                 ZoomMap();
                 ResizeWindows();
+                var hash = window.location.hash.slice(1);
+                var id = parseInt(hash.replace('kandidat-', ''));
+                kandidatin_clicked = id;
+                just_clicked = 1;
                 KandidatinZeigen();
                 ZeigeLandesliste();
+                if ($(window).width() <= 600) {
+                    EnterSmallScreen();
+                } else {
+                    EnterBigScreen();
+                }
             });
         </script>
 <?php

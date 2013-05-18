@@ -8,6 +8,8 @@ var kandidatin_angezeigt = -1;
 var angezeigte_wahlkreise = [];
 var just_clicked = 0;
 
+var mobile_view = false;
+
 var map;
 
 function GetKandidatinnen() {
@@ -27,6 +29,8 @@ function GetKandidatinnen() {
                 }
             } else if ($(this).hasClass('beruf')) {
                 kandidatinnen[kandidatin_index]['beruf'] = $(this).text();
+            } else if ($(this).hasClass('id')) {
+                kandidatinnen[kandidatin_index]['id'] = $(this).text();
             } else if ($(this).hasClass('url')) {
                 kandidatinnen[kandidatin_index]['url'] = $(this).text();
             } else if ($(this).hasClass('bild')) {
@@ -56,42 +60,63 @@ function KandidatinZeigen() {
     // Wenn das -1 ist, Bereich ausblenden
 
     var duration = 300;
-
     if ((kandidatin_clicked !== -1) && (just_clicked)) {
         $('#landesliste_parent').scrollTo($('#kandidatin'+kandidatin_clicked), 700, {offset: -100});
         just_clicked = 0;
     }
 
     if (kandidatin_clicked === -1 && kandidatin_zeigen === -1) {
-        $('#kandidatinneninfo').hide('slide', {'direction':'right'}, duration);
-    } else if (kandidatin_clicked === -1 && kandidatin_zeigen !== -1) {
-        if ($('#kandidatinneninfo').is(':visible')) {
-            $('#kandidatinneninfo').hide('slide', {'direction':'right'}, duration, function() {
-                $('#kandidatinneninfo').html(kandidatinnen_popup[kandidatin_zeigen]);
-                kandidatin_angezeigt = kandidatin_zeigen;
-                $('#kandidatinneninfo').show('slide', {'direction': 'right'}, duration);
+        if (mobile_view === true) {
+            $('#kandidatinneninfo_container').hide('slide', {'direction':'up'}, duration, function() {
+                $('#map').show('slide', {'direction':'up'}, duration);
             });
         } else {
-            $('#kandidatinneninfo').html(kandidatinnen_popup[kandidatin_zeigen]);
+            $('#kandidatinneninfo_container').hide('slide', {'direction':'right'}, duration, function() {
+                $('#map').show('slide', {'direction':'right'}, duration);
+            });
+        }
+        kandidatin_angezeigt = -1;
+    } else if (kandidatin_clicked === -1 && kandidatin_zeigen !== -1) {
+        if ($('#kandidatinneninfo_container').is(':visible')) {
+            $('#kandidatinneninfo_container').hide('slide', {'direction':'right'}, duration, function() {
+                $('#kandidatinneninfo_container').html($('#kandidat-' + kandidatin_zeigen).html());
+                kandidatin_angezeigt = kandidatin_zeigen;
+                $('#kandidatinneninfo_container').show('slide', {'direction': 'right'}, duration);
+            });
+        } else {
+            $('#kandidatinneninfo_container').html($('#kandidat-' + kandidatin_zeigen).html());
             kandidatin_angezeigt = kandidatin_zeigen;
-            $('#kandidatinneninfo').show('slide', {'direction': 'right'}, duration);
+            $('#kandidatinneninfo_container').show('slide', {'direction': 'right'}, duration);
+            if (mobile_view === true) {
+                $('#map').hide('slide', {'direction':'right'}, duration);
+            }
         }
     } else if (kandidatin_clicked === kandidatin_zeigen) {
         // Nothing
     } else if (kandidatin_zeigen === -1 && kandidatin_clicked === kandidatin_angezeigt) {
         // Nothing
     } else if (kandidatin_zeigen === -1) {
-        $('#kandidatinneninfo').hide('slide', {'direction':'right'}, duration, function() {
-            $('#kandidatinneninfo').html(kandidatinnen_popup[kandidatin_clicked]);
-            kandidatin_angezeigt = kandidatin_clicked;
-            $('#kandidatinneninfo').show('slide', {'direction': 'right'}, duration);
-        });
+        if (mobile_view === true) {
+            $('#map').hide('slide', {'direction':'up'}, duration, function() {
+                $('#kandidatinneninfo_container').hide('slide', {'direction':'up'}, duration, function() {
+                    $('#kandidatinneninfo_container').html($('#kandidat-' + kandidatin_clicked).html());
+                    kandidatin_angezeigt = kandidatin_clicked;
+                    $('#kandidatinneninfo_container').show('slide', {'direction': 'up'}, duration);
+                });
+            });
+        } else {
+            $('#kandidatinneninfo_container').hide('slide', {'direction':'right'}, duration, function() {
+                $('#kandidatinneninfo_container').html($('#kandidat-' + kandidatin_clicked).html());
+                kandidatin_angezeigt = kandidatin_clicked;
+                $('#kandidatinneninfo_container').show('slide', {'direction': 'right'}, duration);
+            });
+        }
     } else {
 //        if (kandidatin_clicked !== kandidatin_angezeigt) {
-            $('#kandidatinneninfo').hide('slide', {'direction':'right'}, duration, function() {
-                $('#kandidatinneninfo').html(kandidatinnen_popup[kandidatin_zeigen]);
+            $('#kandidatinneninfo_container').hide('slide', {'direction':'right'}, duration, function() {
+                $('#kandidatinneninfo_container').html($('#kandidat-' + kandidatin_zeigen).html());
                 kandidatin_angezeigt = kandidatin_zeigen;
-                $('#kandidatinneninfo').show('slide', {'direction': 'right'}, duration);
+                $('#kandidatinneninfo_container').show('slide', {'direction': 'right'}, duration);
             });
 //        }
     }
@@ -109,12 +134,18 @@ function KandidatinZeigen() {
         $(this).removeClass('highlight');
         $(this).removeClass('clicked');
     });
-
+    $('#landesliste_select > optgroup > option').each(function() {
+        $(this).prop('selected', false);
+    });    
+    $('#landesliste_select > option').each(function() {
+        $(this).prop('selected', false);
+    });  
     if (kandidatin_zeigen !== -1) {
         if (angezeigte_wahlkreise[kandidatin_zeigen]) {
             angezeigte_wahlkreise[kandidatin_zeigen].setStyle({fillOpacity: 0.8});
         }
         $('#landesliste > ol > li > span#kandidatin' + kandidatin_zeigen).addClass('highlight');
+        $("#landesliste_select option[value='skandidatin'" + kandidatin_zeigen + "']").prop('selected', true);
     }
     if (kandidatin_clicked !== -1) {
         if (angezeigte_wahlkreise[kandidatin_clicked]) {
@@ -125,7 +156,9 @@ function KandidatinZeigen() {
         }
         $('#landesliste > ol > li > span#kandidatin' + kandidatin_clicked).addClass('highlight');
         $('#landesliste > ol > li > span#kandidatin' + kandidatin_clicked).addClass('clicked');
+        $('#landesliste_select option#skandidatin' + (kandidatin_clicked)).prop('selected', true);
     }
+    return false;
 
 }
 
@@ -171,9 +204,6 @@ function InitMap() {
         maxZoom: 18
     }).addTo(map);
 
-    $('#map').after('<div id="kandidatinneninfo"></div>');
-    $('#map').before('<div id="landesliste_parent"></div>');
-    $('#landesliste_parent').html('<div id="landesliste"></div>');
 
 
     ResizeWindows();
@@ -183,27 +213,9 @@ function InitMap() {
         var wahlkreis_nr = value['wahlkreis'];
         var wahlkreis;
         var zindex;
-        var info_text = '';
-
-        info_text += '<h3>';
-        info_text += value['name'] + '</h3>';
-
-        info_text += '<div class="kandidatinnen_infos">'
-        if (value['bild']) {
-            info_text += '<img src="' + value['bild'] + '" alt="' + value['name'];
-            if (value['bildlizenz']) {
-                info_text += ' (Foto: ' + value['bildlizenz'] + ')';
-            }
-            info_text += '" style="float: right;" />';
-            if (value['bildlizenzhtml']) {
-                info_text += '<div class="lizenz">Foto: ' + value['bildlizenzhtml'] + '</div>';
-            }
-        }
-
+        var kid = value['id'];
 
         if (wahlkreis_nr > 0) {
-            info_text += '<h4>';
-            info_text += 'Direktkandidat' + Gender(value['geschlecht']) + " im Wahlkreis " + wahlkreis_infos[wahlkreis_nr]['name'] + ' (' + wahlkreis_nr + ')</h4>';
 
             wahlkreis = new L.Polygon(
               wahlkreise[wahlkreis_nr] ,{
@@ -214,38 +226,15 @@ function InitMap() {
                 }
             );
 
-            wahlkreis.on({mouseover: function(){ kandidatin_zeigen = index; KandidatinZeigen(); },
-                mouseout: function(){ kandidatin_zeigen = -1; KandidatinZeigen(); },
-                click: function(){ kandidatin_clicked = index; just_clicked = 1; KandidatinZeigen(); }
+            wahlkreis.on({
+//				mouseover: function(){ kandidatin_zeigen = index; KandidatinZeigen(); },
+//              mouseout: function(){ kandidatin_zeigen = -1; KandidatinZeigen(); },
+                click: function(){ kandidatin_clicked = kid; just_clicked = 1; KandidatinZeigen(); }
             });
-            angezeigte_wahlkreise[index] = wahlkreis;
+            angezeigte_wahlkreise[kid] = wahlkreis;
             map.addLayer(wahlkreis);
         }
 
-        if (value['listenplatz'] > 0) {
-            info_text += '<h4>Landesliste Platz ' + value['listenplatz'] + '</h4>';
-        }
-
-        info_text += '<ul>';
-        if (value['beruf']) {
-            info_text += '<li><strong>Beruf:</strong> ' + value['beruf'] + '</li>';
-        }
-
-        info_text += '</ul>';
-
-        if (value['url']) {
-            info_text += '<a href="' + value['url'] + '" target="_blank">Zur Homepage</a>';
-        }
-
-        info_text += '</div>';
-
-        info_text += '<div class="clearfix"></div>';
-
-        info_text += '<div class="beschreibung">';
-        info_text += value['beschreibung'];
-        info_text += '</div>';
-
-        kandidatinnen_popup[index] = info_text;
         
     });
 
@@ -294,72 +283,61 @@ function ZoomMap() {
 }
 
 function ZeigeLandesliste() {
-    var landesliste = '';
-
-    $.each(kandidatinnen, function(index, value) {
-        value['index'] = index;
-    });
-    sorted_kandidatinnen = kandidatinnen.sort(function(a,b) {
-        var valA = a['listenplatz'];
-        var valB = b['listenplatz'];
-        if (!valA > 0) {
-            valA = 0;
-        }
-        if (!valB > 0) {
-            valB = 0;
-        }
-        return valA-valB;
-    });
-    var listecnt = 0;
-    var nichtlistecnt = 0;
-    $.each(sorted_kandidatinnen, function(index, value) {
-        if (value['listenplatz']) {
-            listecnt++;
-        } else if (value['wahlkreis']) {
-            nichtlistecnt++;
-        }
-    });
-
-    if (listecnt > 0) {
-        landesliste += '<h3>Unsere Landesliste:</h3>';
-        landesliste += '<ol>';
-        $.each(sorted_kandidatinnen, function(index, value) {
-            if (value['listenplatz']) {
-                landesliste += '<li><span id="kandidatin'+value['index']+'" '+
-                '><span class="listenummer">'+value['listenplatz'] + '.</span> <span class="name">' + value['name']+'</span></span></li>';
-            }
-        });
-        landesliste += '</ol>';
-    }
-    if (nichtlistecnt > 0) {
-        landesliste += '<h3>Unsere Direktkandidat*Innen:</h3>';
-        landesliste += '<ol>';
-        $.each(sorted_kandidatinnen, function(index, value) {
-            if (!value['listenplatz']) {
-                landesliste += '<li><span id="kandidatin'+value['index']+'" '+
-                '>'+ value['name']+'</span></li>';
-            }
-        });
-        landesliste += '</ol>';
-    }
-    $('#landesliste').html(landesliste);
+    
     $('#landesliste > ol > li > span').each(function() {
         var id = parseInt($(this).attr("id").replace('kandidatin',''));
-        $(this).on('mouseenter', function() {kandidatin_zeigen = id; KandidatinZeigen();});
-        $(this).on('mouseleave', function() {kandidatin_zeigen = -1; KandidatinZeigen();});
-        $(this).on('click', function() {kandidatin_clicked = id; KandidatinZeigen();});
+        $(this).on('click', function() {kandidatin_clicked = id; KandidatinZeigen(); return false;});
     });
+    
+    
+    $('#landesliste_select > select').change(function() {
+        if ($(this).find("option:selected").attr("id") == 'selectkarte') {
+            kandidatin_clicked = -1;
+            kandidatin_zeigen = -1;
+            KandidatinZeigen();
+        } else {
+            var id = parseInt($(this).find("option:selected").attr("id").replace('skandidatin',''));
+            kandidatin_clicked = id;
+            just_clicked = 1;
+            KandidatinZeigen();
+        }
+    });
+    
 }
 
 function ResizeWindows() {
     var mapheight = $('#map').height();
     var mapwidth = $('#map').width();
 
-    $('#kandidatinneninfo').css({'max-height': (mapheight - 60) + 'px' });
+    $('#kandidatinneninfo_container').css({'max-height': (mapheight - 60) + 'px' });
     $('#landesliste_parent').css({'max-height': (mapheight - 60) + 'px' });
     $('#landesliste').css({'max-height': (mapheight - 60) + 'px' });
 
 }
+
+function EnterSmallScreen() {
+    mobile_view = true;
+    if (kandidatin_angezeigt !== -1) {
+        $('#map').hide('slide', {'direction':'right'}, 10);
+    }
+    $('#landesliste_select').css({'display': 'block'});
+    $('#landesliste_parent').css({'display': 'none'});
+}
+
+function EnterBigScreen() {
+    mobile_view = false;
+    $('#map').show('slide', {'direction':'right'}, 10);
+    $('#landesliste_select').css({'display': 'none'});
+    $('#landesliste_parent').css({'display': 'block'});
+}
+
+$(window).bind('hashchange', function () {
+    var hash = window.location.hash.slice(1);
+    var id = parseInt(hash.replace('kandidat-', ''));
+    kandidatin_clicked = id;
+    just_clicked = 1;
+    KandidatinZeigen();
+});
 
 /*
 $(document).ready(function() {

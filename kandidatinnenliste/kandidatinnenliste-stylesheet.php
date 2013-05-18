@@ -9,7 +9,10 @@ header('Content-type: text/css');
 
 #map_parent {
 	width: <?php echo get_option('kandidatinnenliste_mapwidth'); ?>;
-	height: <?php echo get_option('kandidatinnenliste_mapheight'); ?>;
+}
+
+#map {
+    height: <?php echo get_option('kandidatinnenliste_mapheight'); ?>;
 }
 
 #kandidatinneninfo, #landesliste_parent, #landesliste {
