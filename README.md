@@ -1,5 +1,16 @@
 # wp-kandidatinnenliste
 
+Angepasste version von @stoppegp
+
+Änderungen (unvollständig):
+* JS wird nur noch eingesetzt, wo nötig
+* Falls JS deaktiviert, wird trotzdem alles wichtige angezeigt
+* Mobile Ansicht
+* Hover-Aktionen deaktiviert
+* Generisches Maskulinum
+* ...
+
+
 Wordpress-Plugin zur Verwaltung von Direkt- und Listenkandidatinnen für Bundestagswahlen
 
 ## Installation
