@@ -1086,10 +1086,6 @@ function kandidatinnenliste_karte() {
                 InitMap();
                 ZoomMap();
                 ResizeWindows();
-                var hash = window.location.hash.slice(1);
-                var id = parseInt(hash.replace('kandidat-', ''));
-                kandidatin_clicked = id;
-                just_clicked = 1;
                 KandidatinZeigen();
                 ZeigeLandesliste();
                 if ($(window).width() <= 600) {

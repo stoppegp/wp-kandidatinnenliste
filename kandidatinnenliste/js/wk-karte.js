@@ -330,15 +330,6 @@ function EnterBigScreen() {
     $('#landesliste_select').css({'display': 'none'});
     $('#landesliste_parent').css({'display': 'block'});
 }
-
-$(window).bind('hashchange', function () {
-    var hash = window.location.hash.slice(1);
-    var id = parseInt(hash.replace('kandidat-', ''));
-    kandidatin_clicked = id;
-    just_clicked = 1;
-    KandidatinZeigen();
-});
-
 /*
 $(document).ready(function() {
   // Handler for .ready() called.
